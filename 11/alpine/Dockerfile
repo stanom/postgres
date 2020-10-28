@@ -18,8 +18,8 @@ ENV LANG en_US.utf8
 RUN mkdir /docker-entrypoint-initdb.d
 
 ENV PG_MAJOR 11
-ENV PG_VERSION 11.9
-ENV PG_SHA256 35618aa72e0372091f923c42389c6febd07513157b4fbb9408371706afbb6635
+ENV PG_VERSION 11.2
+ENV PG_SHA256 2676b9ce09c21978032070b6794696e0aa5a476e3d21d60afc036dc0a9c09405
 
 RUN set -eux; \
 	\
@@ -48,16 +48,22 @@ RUN set -eux; \
 		linux-headers \
 		llvm10-dev clang g++ \
 		make \
-#		openldap-dev \
+#SM >
+		openldap-dev \
+#SM <
 		openssl-dev \
 # configure: error: prove not found
 		perl-utils \
 # configure: error: Perl module IPC::Run is required to run TAP tests
 		perl-ipc-run \
-#		perl-dev \
+#SM >
+		perl-dev \
+#SM <
 #		python-dev \
-#		python3-dev \
-#		tcl-dev \
+#SM >
+		python3-dev \
+		tcl-dev \
+#SM <
 		util-linux-dev \
 		zlib-dev \
 		icu-dev \
@@ -96,16 +102,20 @@ RUN set -eux; \
 # these make our image abnormally large (at least 100MB larger), which seems uncouth for an "Alpine" (ie, "small") variant :)
 #		--with-krb5 \
 #		--with-gssapi \
-#		--with-ldap \
-#		--with-tcl \
-#		--with-perl \
-#		--with-python \
+#SM >
+		--with-ldap \
+		--with-tcl \
+		--with-perl \
+		--with-python \
+#SM <
 #		--with-pam \
 		--with-openssl \
 		--with-libxml \
 		--with-libxslt \
 		--with-icu \
-		--with-llvm \
+#SM >
+#		--with-llvm \
+#SM <
 	; \
 	make -j "$(nproc)" world; \
 	make install-world; \
